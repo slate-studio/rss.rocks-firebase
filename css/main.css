@@ -91,7 +91,8 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
+body { margin: 10px; }
+.error { color: red; }
 
 
 
@@ -264,7 +265,3 @@ textarea {
         page-break-after: avoid;
     }
 }
-
-/* Custom styles */
-
-body { margin: 10px; }
