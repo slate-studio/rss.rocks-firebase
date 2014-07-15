@@ -5,24 +5,16 @@ class App
     @ui()
     @render()
 
-    @authenticate()
-
   ui: ->
     @$el = $('#app')
 
   render: ->
-    @dashView = new DashView(@$el)
-    @authView = new AuthView(@$el)
+    @dashView = new Dashboard @$el
+    @authView = new FirebaseAuth @$el, @firebase, (user) =>
+      @dashView.setUser(user)
+      @show(@dashView)
 
-  authenticate: ->
-    @firebaseAuth = new FirebaseSimpleLogin @firebase, (error, user) =>
-      if user
-        @authView.close()
-        @dashView.open(user)
-      else
-        @dashView.close()
-        @authView.open()
-
-      if error
-        errorMsg = error.message.replace('FirebaseSimpleLogin: ', '')
-        @authView.error(errorMsg)
+  show: (view) ->
+    @currentView?.close()
+    @currentView = view
+    @currentView.open()

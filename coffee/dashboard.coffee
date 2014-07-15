@@ -1,8 +1,8 @@
-class DashView
+class Dashboard
   constructor: (@$rootEl) ->
     @render()
     @ui()
-    @bindEvents()
+    @bind()
 
   render: ->
     @$rootEl.append """
@@ -16,18 +16,14 @@ class DashView
     @$email     = $('#dash_email')
     @$logoutBtn = $('#dash_logout_btn')
 
-  bindEvents: ->
-    @$logoutBtn.on 'click', (e) => @logout() ; false
-
-  logout: ->
-    app.firebaseAuth.logout()
-    @close()
-    app.authView.open()
-    app.authView.showLogin()
-
-  open: (@user) ->
-    @$email.html(@user.email)
+  open: ->
     @$el.show()
 
   close: ->
     @$el.hide()
+
+  bind: ->
+    @$logoutBtn.on 'click', (e) -> app.authView.logout() ; false
+
+  setUser: (@user) ->
+    @$email.html(@user.email)
