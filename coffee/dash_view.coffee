@@ -1,7 +1,15 @@
 class DashView
-  constructor: ->
+  constructor: (@$rootEl) ->
+    @render()
     @ui()
     @bindEvents()
+
+  render: ->
+    @$rootEl.append """
+      <section id='dash' style='display:none;'>
+        <p><span id='dash_email'></span> — <a id='dash_logout_btn' href='#'>logout</a></p>
+      </section>
+    """
 
   ui: ->
     @$el        = $('#dash')

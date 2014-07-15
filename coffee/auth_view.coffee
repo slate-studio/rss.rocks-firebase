@@ -1,7 +1,37 @@
 class AuthView
-  constructor: ->
+  constructor: (@$rootEl) ->
+    @render()
     @ui()
     @bindEvents()
+
+  render: ->
+    @$rootEl.append """
+      <section id='auth' style='display:none;'>
+        <p>Welcome to <strong>RSS.rocks</strong>!</p>
+
+        <div id='signup' style='display:none;'>
+            <form id='signup_form'>
+                <input id='signup_email' value='' placeholder='email' type='email'>
+                <input id='signup_password' value='' placeholder='password' type='password'>
+                <input id='signup_submit' value='signup' type='submit'>
+            </form>
+          <p id='signup_error' class='error'></p>
+            <p>— if you have an account, please <a id='signup_login_btn' href='#'>login</a></p>
+        </div>
+
+        <div id='login'>
+          <form id='login_form'>
+              <input id='login_email' value='' placeholder='email' type='email'>
+              <input id='login_password' value='' placeholder='password' type='password'>
+              <input id='login_submit' value='login' type='submit'>
+          </form>
+          <p id='login_error' class='error'></p>
+          <p>— if you don't have an account, please <a id='login_signup_btn' href='#'>signup</a><br>
+          — if you forgot your password, <a id='login_reset_password' href='#'>reset</a> it via an email
+          </p>
+        </div>
+      </section>
+    """
 
   ui: ->
     @$el          = $('#auth')

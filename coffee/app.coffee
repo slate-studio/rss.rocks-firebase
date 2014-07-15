@@ -2,12 +2,17 @@ class App
   constructor: (@firebaseAppName) ->
     @firebase = new Firebase("https://#{@firebaseAppName}.firebaseio.com")
 
-    @createViews()
+    @ui()
+    @render()
+
     @authenticate()
 
-  createViews: ->
-    @dashView = new DashView()
-    @authView = new AuthView()
+  ui: ->
+    @$el = $('#app')
+
+  render: ->
+    @dashView = new DashView(@$el)
+    @authView = new AuthView(@$el)
 
   authenticate: ->
     @firebaseAuth = new FirebaseSimpleLogin @firebase, (error, user) =>
