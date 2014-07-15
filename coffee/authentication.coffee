@@ -1,4 +1,4 @@
-class FirebaseAuth
+class Authentication
   constructor: (@$rootEl, @firebase, @onAuthCb) ->
     @render()
     @ui()

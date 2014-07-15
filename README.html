@@ -1,0 +1,20 @@
+<h1>RSS.rocks!</h1>
+
+<p>RSS email notifier app, backed by Firebase.</p>
+
+<p>This is a experiment app aims to help figure out how Firebase API works and what kind of projects could be achived with its help.</p>
+
+<h2>Firebase Rules</h2>
+
+<pre><code>{
+  "rules": {
+    ".read": true,
+    "feeds": {
+      "$feed": {
+        ".write": "auth != null",
+        ".validate": "auth.id == newData.child('userid').val() &amp;&amp; newData.hasChildren(['userid', 'url', 'name']) &amp;&amp; newData.child('url').isString() &amp;&amp; newData.child('name').isString()"
+      }
+    }
+  }
+}
+</code></pre>

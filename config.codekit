@@ -15,27 +15,27 @@
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
-	"\/coffee\/auth_view.coffee": {
+	"\/coffee\/dashboard.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
 		"ignore": 1,
 		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/coffee\/auth_view.coffee",
+		"inputAbbreviatedPath": "\/coffee\/dashboard.coffee",
 		"minifyOutput": 1,
-		"outputAbbreviatedPath": "\/coffee\/auth_view.js",
+		"outputAbbreviatedPath": "\/coffee\/dashboard.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
-	"\/coffee\/dash_view.coffee": {
+	"\/coffee\/firebase_auth.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
 		"ignore": 1,
 		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/coffee\/dash_view.coffee",
+		"inputAbbreviatedPath": "\/coffee\/firebase_auth.coffee",
 		"minifyOutput": 1,
-		"outputAbbreviatedPath": "\/coffee\/dash_view.js",
+		"outputAbbreviatedPath": "\/coffee\/firebase_auth.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -51,6 +51,19 @@
 		"outputAbbreviatedPath": "\/js\/main.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 1,
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 1
+		},
+	"\/coffee\/subscription.coffee": {
+		"createSourceMap": 0,
+		"fileType": 32,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/coffee\/subscription.coffee",
+		"minifyOutput": 1,
+		"outputAbbreviatedPath": "\/coffee\/subscription.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
@@ -127,6 +140,15 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/README.html": {
+		"fileType": 8192,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/README.html",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/README.md": {
 		"enableFootnoteSupport": 0,
 		"enableSmartyPants": 1,
@@ -147,20 +169,26 @@
 	"\/coffee\/main.coffee": [
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/coffee\/dash_view.coffee",
+			"linkedFileAbbreviatedPath": "\/coffee\/subscription.coffee",
 			"position": 0,
 			"type": 0
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/coffee\/auth_view.coffee",
+			"linkedFileAbbreviatedPath": "\/coffee\/dashboard.coffee",
 			"position": 1,
 			"type": 0
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/coffee\/app.coffee",
+			"linkedFileAbbreviatedPath": "\/coffee\/firebase_auth.coffee",
 			"position": 2,
+			"type": 0
+			},
+		{
+			"followForSyntaxChecking": 1,
+			"linkedFileAbbreviatedPath": "\/coffee\/app.coffee",
+			"position": 3,
 			"type": 0
 			}
 		]

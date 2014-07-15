@@ -9,9 +9,9 @@ class App
     @$el = $('#app')
 
   render: ->
-    @dashView = new Dashboard @$el
-    @authView = new FirebaseAuth @$el, @firebase, (user) =>
-      @dashView.setUser(user)
+    @dashView = new Dashboard @$el, @firebase
+    @authView = new Authentication @$el, @firebase, (@user) =>
+      @dashView.setEmail(@user.email)
       @show(@dashView)
 
   show: (view) ->

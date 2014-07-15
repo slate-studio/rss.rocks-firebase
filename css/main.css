@@ -93,11 +93,10 @@ textarea {
 
 body { margin: 0 15px; }
 .error { color: red; }
-
-
-
-
-
+.subscriptions-remove-button { text-decoration: none; visibility: hidden; }
+.subscriptions-list-item:hover .subscriptions-remove-button { visibility: visible; }
+.subscriptions-list { padding-left: 0; list-style-type: none; }
+.subscriptions-list-item.striked-out { text-decoration: line-through; }
 
 
 
