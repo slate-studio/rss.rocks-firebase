@@ -15,6 +15,19 @@
 		"outputStyle": 0,
 		"syntaxCheckerStyle": 1
 		},
+	"\/coffee\/authentication.coffee": {
+		"createSourceMap": 0,
+		"fileType": 32,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
+		"inputAbbreviatedPath": "\/coffee\/authentication.coffee",
+		"minifyOutput": 1,
+		"outputAbbreviatedPath": "\/coffee\/authentication.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"syntaxCheckerStyle": 1
+		},
 	"\/coffee\/dashboard.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
@@ -23,19 +36,6 @@
 		"inputAbbreviatedPath": "\/coffee\/dashboard.coffee",
 		"minifyOutput": 1,
 		"outputAbbreviatedPath": "\/coffee\/dashboard.js",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0,
-		"outputStyle": 0,
-		"syntaxCheckerStyle": 1
-		},
-	"\/coffee\/firebase_auth.coffee": {
-		"createSourceMap": 0,
-		"fileType": 32,
-		"ignore": 1,
-		"ignoreWasSetByUser": 1,
-		"inputAbbreviatedPath": "\/coffee\/firebase_auth.coffee",
-		"minifyOutput": 1,
-		"outputAbbreviatedPath": "\/coffee\/firebase_auth.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
@@ -140,22 +140,13 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
-	"\/README.html": {
-		"fileType": 8192,
-		"ignore": 1,
-		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/README.html",
-		"outputAbbreviatedPath": "No Output Path",
-		"outputPathIsOutsideProject": 0,
-		"outputPathIsSetByUser": 0
-		},
 	"\/README.md": {
 		"enableFootnoteSupport": 0,
 		"enableSmartyPants": 1,
 		"expandTabs": 1,
 		"fileType": 4096,
-		"ignore": 0,
-		"ignoreWasSetByUser": 0,
+		"ignore": 1,
+		"ignoreWasSetByUser": 1,
 		"inputAbbreviatedPath": "\/README.md",
 		"outputAbbreviatedPath": "\/README.html",
 		"outputPathIsOutsideProject": 0,
@@ -181,7 +172,7 @@
 			},
 		{
 			"followForSyntaxChecking": 1,
-			"linkedFileAbbreviatedPath": "\/coffee\/firebase_auth.coffee",
+			"linkedFileAbbreviatedPath": "\/coffee\/authentication.coffee",
 			"position": 2,
 			"type": 0
 			},

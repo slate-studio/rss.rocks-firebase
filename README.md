@@ -6,6 +6,8 @@ This is a experiment app aims to help figure out how Firebase API works and what
 
 ## Firebase Rules
 
+(not tested, and seems to be not working)
+
     {
       "rules": {
         ".read": true,
