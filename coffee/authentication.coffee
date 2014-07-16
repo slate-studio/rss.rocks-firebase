@@ -36,27 +36,29 @@ class Authentication
     """
 
   _ui: ->
-    @$el            = $('#auth')
-    @$loginBtn      = $('#signup_login_btn')
-    @$signupBtn     = $('#login_signup_btn')
-    @$loginView     = $('#login')
-    @$signupView    = $('#signup')
-    @$loginForm     = $('#login_form')
-    @$signupForm    = $('#signup_form')
-    @$loginEmail    = $('#login_email')
-    @$loginPass     = $('#login_password')
-    @$signupEmail   = $('#signup_email')
-    @$signupPass    = $('#signup_password')
-    @$loginError    = $('#login_error')
-    @$signupError   = $('#signup_error')
-    @$signupLoading = $('#signup_loading')
-    @$loginLoading  = $('#login_loading')
+    @$el            = $ '#auth'
+    @$loginBtn      = $ '#signup_login_btn'
+    @$signupBtn     = $ '#login_signup_btn'
+    @$loginView     = $ '#login'
+    @$signupView    = $ '#signup'
+    @$loginForm     = $ '#login_form'
+    @$signupForm    = $ '#signup_form'
+    @$loginEmail    = $ '#login_email'
+    @$loginPass     = $ '#login_password'
+    @$signupEmail   = $ '#signup_email'
+    @$signupPass    = $ '#signup_password'
+    @$loginError    = $ '#login_error'
+    @$signupError   = $ '#signup_error'
+    @$signupLoading = $ '#signup_loading'
+    @$loginLoading  = $ '#login_loading'
+    @$resetBtn      = $ '#login_reset_password'
 
   _bind: ->
-    @$loginBtn.on   'click',  (e) => @showLogin()  ; false
-    @$signupBtn.on  'click',  (e) => @showSignup() ; false
-    @$signupForm.on 'submit', (e) => @signup()     ; false
-    @$loginForm.on  'submit', (e) => @login()      ; false
+    @$loginBtn.on   'click',  (e) => @showLogin()     ; false
+    @$signupBtn.on  'click',  (e) => @showSignup()    ; false
+    @$resetBtn.on   'click',  (e) => @resetPassword() ; false
+    @$signupForm.on 'submit', (e) => @signup()        ; false
+    @$loginForm.on  'submit', (e) => @login()         ; false
 
   _authenticate: ->
     @auth = new FirebaseSimpleLogin @firebase, (error, user) =>
@@ -122,3 +124,11 @@ class Authentication
   error: (msg) ->
     @$signupError.html(msg)
     @$loginError.html(msg)
+
+  resetPassword: ->
+    # todo: add functionality
+    # auth.sendPasswordResetEmail(email, function(error, success) {
+    #   if (!error) {
+    #     console.log('Password reset email sent successfully');
+    #   }
+    # });
