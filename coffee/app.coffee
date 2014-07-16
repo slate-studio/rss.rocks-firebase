@@ -15,6 +15,6 @@ class App
       @show(@dashView)
 
   show: (view) ->
-    @currentView?.close()
+    @currentView?.hide()
     @currentView = view
-    @currentView.open()
+    @currentView.show()

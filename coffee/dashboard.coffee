@@ -1,19 +1,17 @@
 class Dashboard
   constructor: (@$rootEl, @firebase) ->
-    @subscriptionsRef = @firebase.child('subscriptions')
+    @subscriptionCollection = []
+    @_render()
+    @_ui()
+    @_bind()
 
-    @render()
-    @ui()
-    @bind()
-
-  render: ->
+  _render: ->
     @$rootEl.append """
       <section id='dash' style='display:none;'>
         <p><span id='dash_email'></span> — <a id='dash_logout_btn' href='#'>logout</a></p>
 
         <div id='subscriptions'>
           <p>
-            <span id='subscriptions_empty'>You don't have any subscriptions just yet.<br/></span>
             <form id='subscriptions_new_form'>
               <input id='subscriptions_new_name' placeholder='name' />
               <input id='subscriptions_new_url' placeholder='rss feed link' type='url' />
@@ -25,9 +23,7 @@ class Dashboard
       </section>
     """
 
-  renderSubscription: (doc) -> new Subscription(@$list, doc)
-
-  ui: ->
+  _ui: ->
     @$el        = $ '#dash'
     @$email     = $ '#dash_email'
     @$logoutBtn = $ '#dash_logout_btn'
@@ -35,27 +31,36 @@ class Dashboard
     @$newUrl    = $ '#subscriptions_new_url'
     @$newName   = $ '#subscriptions_new_name'
     @$list      = $ '#subscriptions_list'
-    @$empty     = $ '#subscriptions_empty'
-    @$items     = $ '.subscriptions-remove-button'
 
-  open: ->
+  show: ->
+    @uid = app.user.uid
+
+    @subscriptionsRef = @firebase.child('subscriptions').child(@uid)
+    @subscriptionsRef.on 'child_added', (snapshot) =>
+      @subscriptionCollection.push(new Subscription(@$list, snapshot))
+
     @$el.show()
 
-  close: ->
+  hide: ->
+    console.log 'test'
+    $.each @subscriptionCollection, (i, el) -> console.log el ; el.destroy()
+    @subscriptionsRef.off()
+
+    delete @subscriptionsRef
+    delete @uid
+
     @$el.hide()
 
-  bind: ->
-    @subscriptionsRef.on 'child_added', (snapshot) => @renderSubscription(snapshot) ; @$empty.hide()
+  _bind: ->
     @$logoutBtn.on       'click',       (e)        -> app.authView.logout() ; false
     @$newForm.on         'submit',      (e)        => @addNewSubscription() ; false
 
   setEmail: (email) -> @$email.html(email)
 
   addNewSubscription: ->
-    uid  = app.user.id
     url  = @$newUrl.val()  ; @$newUrl.val('')
     name = @$newName.val() ; @$newName.val('')
 
-    @subscriptionsRef.push({user_id: uid, url: url, name: name})
+    @subscriptionsRef.push({url: url, name: name})
 
     @$newName.focus()

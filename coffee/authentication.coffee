@@ -1,11 +1,11 @@
 class Authentication
   constructor: (@$rootEl, @firebase, @onAuthCb) ->
-    @render()
-    @ui()
-    @bind()
-    @authenticate()
+    @_render()
+    @_ui()
+    @_bind()
+    @_authenticate()
 
-  render: ->
+  _render: ->
     @$rootEl.append """
       <section id='auth' style='display:none;'>
         <p>Welcome to <strong>RSS.rocks</strong>!</p>
@@ -35,7 +35,7 @@ class Authentication
       </section>
     """
 
-  ui: ->
+  _ui: ->
     @$el            = $('#auth')
     @$loginBtn      = $('#signup_login_btn')
     @$signupBtn     = $('#login_signup_btn')
@@ -52,26 +52,31 @@ class Authentication
     @$signupLoading = $('#signup_loading')
     @$loginLoading  = $('#login_loading')
 
-  bind: ->
+  _bind: ->
     @$loginBtn.on   'click',  (e) => @showLogin()  ; false
     @$signupBtn.on  'click',  (e) => @showSignup() ; false
     @$signupForm.on 'submit', (e) => @signup()     ; false
     @$loginForm.on  'submit', (e) => @login()      ; false
 
-  authenticate: ->
+  _authenticate: ->
     @auth = new FirebaseSimpleLogin @firebase, (error, user) =>
       @$loginLoading.hide()
 
-      if user then @onAuthCb?(user) else app.show(this)
+      if user
+        @$loginEmail.val('')
+        @$loginPass.val('')
+
+        @onAuthCb?(user)
+      else app.show(this)
 
       if error then @error(error.message.replace('FirebaseSimpleLogin: ', ''))
 
-  open: ->
+  show: ->
     @$signupError.html('')
     @$loginError.html('')
     @$el.show()
 
-  close: ->
+  hide: ->
     @$el.hide()
 
   showLogin: ->
@@ -94,6 +99,7 @@ class Authentication
 
   logout: ->
     @auth.logout()
+    delete app.user
     @showLogin()
     app.show(this)
 
@@ -109,6 +115,8 @@ class Authentication
       if error
         @error(error.message.replace('FirebaseSimpleLogin: ', ''))
       else
+        @$signupEmail.val('')
+        @$signupPass.val('')
         @onAuthCb?(user)
 
   error: (msg) ->

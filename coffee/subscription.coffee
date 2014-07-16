@@ -1,10 +1,10 @@
 class Subscription
   constructor: (@$rootEl, @snapshot) ->
-    @render()
-    @ui()
-    @bind()
+    @_render()
+    @_ui()
+    @_bind()
 
-  render: ->
+  _render: ->
     @ref  = @snapshot.ref()
     @data = @snapshot.val()
     @$el = $ """
@@ -14,21 +14,23 @@ class Subscription
     """
     @$rootEl.append @$el
 
-  ui: ->
+  _ui: ->
     @$deleteBtn = @$el.find('.subscriptions-remove-button')
 
-  bind: ->
+  _bind: ->
     @$deleteBtn.on 'click',      (e) => @remove() ; false
     @$deleteBtn.on 'mouseenter', (e) -> $(e.currentTarget).parent().addClass 'striked-out'
     @$deleteBtn.on 'mouseleave', (e) -> $(e.currentTarget).parent().removeClass 'striked-out'
 
-  unbind: ->
-    @$deleteBtn.off 'click'
-    @$deleteBtn.off 'mouseenter'
-    @$deleteBtn.off 'mouseleave'
+  _unbind: ->
+    @$deleteBtn.off()
 
   remove: ->
     if confirm('Remove subscription?')
       @unbind()
       @$el.remove()
       @ref.remove()
+
+  destroy: ->
+    @_unbind()
+    @$el.remove()

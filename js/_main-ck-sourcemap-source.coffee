@@ -7,11 +7,11 @@
 ###
 class Subscription
   constructor: (@$rootEl, @snapshot) ->
-    @render()
-    @ui()
-    @bind()
+    @_render()
+    @_ui()
+    @_bind()
 
-  render: ->
+  _render: ->
     @ref  = @snapshot.ref()
     @data = @snapshot.val()
     @$el = $ """
@@ -21,24 +21,26 @@ class Subscription
     """
     @$rootEl.append @$el
 
-  ui: ->
+  _ui: ->
     @$deleteBtn = @$el.find('.subscriptions-remove-button')
 
-  bind: ->
+  _bind: ->
     @$deleteBtn.on 'click',      (e) => @remove() ; false
     @$deleteBtn.on 'mouseenter', (e) -> $(e.currentTarget).parent().addClass 'striked-out'
     @$deleteBtn.on 'mouseleave', (e) -> $(e.currentTarget).parent().removeClass 'striked-out'
 
-  unbind: ->
-    @$deleteBtn.off 'click'
-    @$deleteBtn.off 'mouseenter'
-    @$deleteBtn.off 'mouseleave'
+  _unbind: ->
+    @$deleteBtn.off()
 
   remove: ->
     if confirm('Remove subscription?')
       @unbind()
       @$el.remove()
       @ref.remove()
+
+  destroy: ->
+    @_unbind()
+    @$el.remove()
 
 ###
 --------------------------------------------
@@ -47,20 +49,18 @@ class Subscription
 ###
 class Dashboard
   constructor: (@$rootEl, @firebase) ->
-    @subscriptionsRef = @firebase.child('subscriptions')
+    @subscriptionCollection = []
+    @_render()
+    @_ui()
+    @_bind()
 
-    @render()
-    @ui()
-    @bind()
-
-  render: ->
+  _render: ->
     @$rootEl.append """
       <section id='dash' style='display:none;'>
         <p><span id='dash_email'></span> — <a id='dash_logout_btn' href='#'>logout</a></p>
 
         <div id='subscriptions'>
           <p>
-            <span id='subscriptions_empty'>You don't have any subscriptions just yet.<br/></span>
             <form id='subscriptions_new_form'>
               <input id='subscriptions_new_name' placeholder='name' />
               <input id='subscriptions_new_url' placeholder='rss feed link' type='url' />
@@ -72,9 +72,7 @@ class Dashboard
       </section>
     """
 
-  renderSubscription: (doc) -> new Subscription(@$list, doc)
-
-  ui: ->
+  _ui: ->
     @$el        = $ '#dash'
     @$email     = $ '#dash_email'
     @$logoutBtn = $ '#dash_logout_btn'
@@ -82,28 +80,37 @@ class Dashboard
     @$newUrl    = $ '#subscriptions_new_url'
     @$newName   = $ '#subscriptions_new_name'
     @$list      = $ '#subscriptions_list'
-    @$empty     = $ '#subscriptions_empty'
-    @$items     = $ '.subscriptions-remove-button'
 
-  open: ->
+  show: ->
+    @uid = app.user.uid
+
+    @subscriptionsRef = @firebase.child('subscriptions').child(@uid)
+    @subscriptionsRef.on 'child_added', (snapshot) =>
+      @subscriptionCollection.push(new Subscription(@$list, snapshot))
+
     @$el.show()
 
-  close: ->
+  hide: ->
+    console.log 'test'
+    $.each @subscriptionCollection, (i, el) -> console.log el ; el.destroy()
+    @subscriptionsRef.off()
+
+    delete @subscriptionsRef
+    delete @uid
+
     @$el.hide()
 
-  bind: ->
-    @subscriptionsRef.on 'child_added', (snapshot) => @renderSubscription(snapshot) ; @$empty.hide()
+  _bind: ->
     @$logoutBtn.on       'click',       (e)        -> app.authView.logout() ; false
     @$newForm.on         'submit',      (e)        => @addNewSubscription() ; false
 
   setEmail: (email) -> @$email.html(email)
 
   addNewSubscription: ->
-    uid  = app.user.id
     url  = @$newUrl.val()  ; @$newUrl.val('')
     name = @$newName.val() ; @$newName.val('')
 
-    @subscriptionsRef.push({user_id: uid, url: url, name: name})
+    @subscriptionsRef.push({url: url, name: name})
 
     @$newName.focus()
 
@@ -115,12 +122,12 @@ class Dashboard
 ###
 class Authentication
   constructor: (@$rootEl, @firebase, @onAuthCb) ->
-    @render()
-    @ui()
-    @bind()
-    @authenticate()
+    @_render()
+    @_ui()
+    @_bind()
+    @_authenticate()
 
-  render: ->
+  _render: ->
     @$rootEl.append """
       <section id='auth' style='display:none;'>
         <p>Welcome to <strong>RSS.rocks</strong>!</p>
@@ -150,7 +157,7 @@ class Authentication
       </section>
     """
 
-  ui: ->
+  _ui: ->
     @$el            = $('#auth')
     @$loginBtn      = $('#signup_login_btn')
     @$signupBtn     = $('#login_signup_btn')
@@ -167,26 +174,31 @@ class Authentication
     @$signupLoading = $('#signup_loading')
     @$loginLoading  = $('#login_loading')
 
-  bind: ->
+  _bind: ->
     @$loginBtn.on   'click',  (e) => @showLogin()  ; false
     @$signupBtn.on  'click',  (e) => @showSignup() ; false
     @$signupForm.on 'submit', (e) => @signup()     ; false
     @$loginForm.on  'submit', (e) => @login()      ; false
 
-  authenticate: ->
+  _authenticate: ->
     @auth = new FirebaseSimpleLogin @firebase, (error, user) =>
       @$loginLoading.hide()
 
-      if user then @onAuthCb?(user) else app.show(this)
+      if user
+        @$loginEmail.val('')
+        @$loginPass.val('')
+
+        @onAuthCb?(user)
+      else app.show(this)
 
       if error then @error(error.message.replace('FirebaseSimpleLogin: ', ''))
 
-  open: ->
+  show: ->
     @$signupError.html('')
     @$loginError.html('')
     @$el.show()
 
-  close: ->
+  hide: ->
     @$el.hide()
 
   showLogin: ->
@@ -209,6 +221,7 @@ class Authentication
 
   logout: ->
     @auth.logout()
+    delete app.user
     @showLogin()
     app.show(this)
 
@@ -224,6 +237,8 @@ class Authentication
       if error
         @error(error.message.replace('FirebaseSimpleLogin: ', ''))
       else
+        @$signupEmail.val('')
+        @$signupPass.val('')
         @onAuthCb?(user)
 
   error: (msg) ->
@@ -253,13 +268,13 @@ class App
       @show(@dashView)
 
   show: (view) ->
-    @currentView?.close()
+    @currentView?.hide()
     @currentView = view
-    @currentView.open()
+    @currentView.show()
 
 ###
 --------------------------------------------
-     Begin main.coffee
+     Begin _main.coffee
 --------------------------------------------
 ###
 $ ->
