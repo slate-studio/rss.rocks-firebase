@@ -42,8 +42,7 @@ class Dashboard
     @$el.show()
 
   hide: ->
-    console.log 'test'
-    $.each @subscriptionCollection, (i, el) -> console.log el ; el.destroy()
+    $.each @subscriptionCollection, (i, el) -> el.destroy()
     @subscriptionsRef.off()
 
     delete @subscriptionsRef

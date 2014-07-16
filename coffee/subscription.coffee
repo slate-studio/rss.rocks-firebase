@@ -27,9 +27,8 @@ class Subscription
 
   remove: ->
     if confirm('Remove subscription?')
-      @unbind()
-      @$el.remove()
       @ref.remove()
+      @destroy()
 
   destroy: ->
     @_unbind()

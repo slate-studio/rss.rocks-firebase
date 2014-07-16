@@ -94,14 +94,14 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
-	"\/js\/main-ck-sourcemap-source.coffee": {
+	"\/js\/_main-ck-sourcemap-source.coffee": {
 		"createSourceMap": 0,
 		"fileType": 32,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
-		"inputAbbreviatedPath": "\/js\/main-ck-sourcemap-source.coffee",
+		"inputAbbreviatedPath": "\/js\/_main-ck-sourcemap-source.coffee",
 		"minifyOutput": 1,
-		"outputAbbreviatedPath": "\/js\/main-ck-sourcemap-source.js",
+		"outputAbbreviatedPath": "\/js\/_main-ck-sourcemap-source.js",
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,

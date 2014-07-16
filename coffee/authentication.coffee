@@ -12,8 +12,8 @@ class Authentication
 
         <div id='signup' style='display:none;'>
           <form id='signup_form'>
-            <input id='signup_email' value='' placeholder='email' type='email'>
-            <input id='signup_password' value='' placeholder='password' type='password'>
+            <input id='signup_email' value='' placeholder='email' type='email' required>
+            <input id='signup_password' value='' placeholder='password' type='password' required>
             <input id='signup_submit' value='signup' type='submit'>
             <span id='signup_loading' style='display:none;'>please wait...</span>
           </form>
@@ -23,8 +23,8 @@ class Authentication
 
         <div id='login'>
           <form id='login_form'>
-            <input id='login_email' value='' placeholder='email' type='email'>
-            <input id='login_password' value='' placeholder='password' type='password'>
+            <input id='login_email' value='' placeholder='email' type='email' required>
+            <input id='login_password' value='' placeholder='password' type='password' required>
             <input id='login_submit' value='login' type='submit'>
             <span id='login_loading' style='display:none;'>please wait...</span>
           </form>
