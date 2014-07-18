@@ -1,3 +1,3 @@
 $ ->
-  firebaseAppName = 'sizzling-fire-6443'
+  firebaseAppName = 'rss-rocks'
   window.app = new App(firebaseAppName)

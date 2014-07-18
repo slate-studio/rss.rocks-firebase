@@ -11,7 +11,6 @@ class App
   render: ->
     @dashView = new Dashboard @$el, @firebase
     @authView = new Authentication @$el, @firebase, (@user) =>
-      @dashView.setEmail(@user.email)
       @show(@dashView)
 
   show: (view) ->

@@ -33,9 +33,12 @@ class Dashboard
     @$list      = $ '#subscriptions_list'
 
   show: ->
-    @uid = app.user.uid
+    @uid       = app.user.uid
+    @userEmail = app.user.email
 
-    @subscriptionsRef = @firebase.child('subscriptions').child(@uid)
+    @$email.html(@userEmail)
+
+    @subscriptionsRef = @firebase.child('users').child(@uid).child('subscriptions')
     @subscriptionsRef.on 'child_added', (snapshot) =>
       @subscriptionCollection.push(new Subscription(@$list, snapshot))
 
@@ -45,16 +48,15 @@ class Dashboard
     $.each @subscriptionCollection, (i, el) -> el.destroy()
     @subscriptionsRef.off()
 
-    delete @subscriptionsRef
     delete @uid
+    delete @userEmail
+    delete @subscriptionsRef
 
     @$el.hide()
 
   _bind: ->
-    @$logoutBtn.on       'click',       (e)        -> app.authView.logout() ; false
-    @$newForm.on         'submit',      (e)        => @addNewSubscription() ; false
-
-  setEmail: (email) -> @$email.html(email)
+    @$logoutBtn.on 'click',  (e) -> app.authView.logout() ; false
+    @$newForm.on   'submit', (e) => @addNewSubscription() ; false
 
   addNewSubscription: ->
     url  = @$newUrl.val()  ; @$newUrl.val('')
